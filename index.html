@@ -35,7 +35,8 @@
             color: var(--text);
             background-color: var(--bg);
             line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-x: hidden;
+            /* Prevent horizontal scrolling */
             width: 100%;
         }
 
@@ -226,7 +227,8 @@
         .point p {
             margin: 0;
             font-size: 1.1rem;
-            color: var(--text); /* Ensure text is visible on mobile */
+            color: var(--text);
+            /* Ensure text is visible on mobile */
         }
 
         .badge {
@@ -370,12 +372,12 @@
             .hero-content h1 {
                 font-size: 2rem;
             }
-            
+
             .hero-content h2 {
                 font-size: 1.3rem;
                 margin-bottom: 1rem;
             }
-            
+
             .mobile-menu-btn {
                 display: block;
             }
@@ -462,6 +464,29 @@
             .hero-right .point p {
                 color: var(--text);
             }
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 1rem;
+        }
+
+        .lightbox.active {
+            display: flex;
         }
     </style>
 </head>
@@ -746,20 +771,24 @@
             </div>
             <div class="section-content">
                 <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <a href="#"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 1" class="gallery-image" /></a>
+                    <div class="gallery-item" onclick="openLightbox(this)">
+                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 1"
+                                class="gallery-image" /></a>
                         <div class="gallery-caption">ReLoop Utendørs Installasjon</div>
                     </div>
-                    <div class="gallery-item">
-                        <a href="#"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 2" class="gallery-image" /></a>
+                    <div class="gallery-item" onclick="openLightbox(this)">
+                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 2"
+                                class="gallery-image" /></a>
                         <div class="gallery-caption">Pantestasjon i Bruk</div>
                     </div>
-                    <div class="gallery-item">
-                        <a href="#"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 3" class="gallery-image" /></a>
+                    <div class="gallery-item" onclick="openLightbox(this)">
+                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 3"
+                                class="gallery-image" /></a>
                         <div class="gallery-caption">Innvendig Teknologi</div>
                     </div>
-                    <div class="gallery-item">
-                        <a href="#"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 4" class="gallery-image" /></a>
+                    <div class="gallery-item" onclick="openLightbox(this)">
+                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 4"
+                                class="gallery-image" /></a>
                         <div class="gallery-caption">Kundeopplevelse</div>
                     </div>
                 </div>
@@ -790,7 +819,8 @@
                     <div class="faq-question">Hvordan integreres ReLoop med eksisterende butikksystemer?</div>
                     <div class="faq-answer">ReLoop er designet for sømløs integrasjon med alle standard butikk- og
                         POS-systemer. Vårt tekniske team håndterer hele integrasjonsprosessen for å sikre minimal
-                        forstyrrelse av butikkens drift.<br><strong>P.S. denne må vi endre; har de egentlig et teknisk team?</strong></div>
+                        forstyrrelse av butikkens drift.<br><strong>P.S. denne må vi endre; har de egentlig et teknisk
+                            team?</strong></div>
                 </div>
             </div>
         </div>
@@ -808,7 +838,7 @@
                     <p>Daglig leder / Prosjektleder</p>
                     <div class="contact-info">
                         <div class="contact-item">📞 +47 970 95 285</div>
-                        <div class="contact-item">📧 thomas@villamokollen.no</div>
+                        <div class="contact-item">📧 <a href="mailto:thomas@villamokollen.no">thomas@villamokollen.no</a></div>
                     </div>
                 </div>
                 <div class="contact-card">
@@ -816,7 +846,7 @@
                     <p>Konseptdesign & Engineering / CTO</p>
                     <div class="contact-info">
                         <div class="contact-item">📞 +47 900 77 070</div>
-                        <div class="contact-item">📧 stein@sbidesign.no</div>
+                        <div class="contact-item">📧 <a href="mailto:stein@sbidesign.no">stein@sbidesign.no</a></div>
                         <div class="contact-item">🌐 <a href="http://www.sbidesign.no">sbidesign.no</a></div>
                     </div>
                 </div>
@@ -838,8 +868,26 @@
             </div>
             <p>© 2025 ReLoop AS. Alle rettigheter reservert.</p>
             <p>Fremtidens Panteløsning for Dagligvarehandelen</p>
+            <br>
+            <p>Design © 2025 NordBerg Nett</p>
         </div>
     </footer>
+    <div class="lightbox" onclick="closeLightbox()">
+        <img src="" alt="">
+    </div>
+
+    <script>
+        function openLightbox(element) {
+            const lightbox = document.querySelector('.lightbox');
+            const img = lightbox.querySelector('img');
+            img.src = element.querySelector('img').src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.querySelector('.lightbox').classList.remove('active');
+        }
+    </script>
 </body>
 
 </html>
@@ -850,7 +898,6 @@
         navLinks.classList.toggle('active');
     }
 
-    // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
         const navLinks = document.querySelector('.nav-links');
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
