@@ -1,919 +1,926 @@
 <!DOCTYPE html>
 <html lang="no">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ReLoop - Fremtidens Panteløsning</title>
-    <style>
-        :root {
-            --logo-l: #637456;
-            --logo-r: #3A4F27;
-            --logo-d: #BAC0B4;
-            --logo-u: #919D87;
-            --primary: #394E29;
-            --secondary: #9BBB59;
-            --separator: #96BEBC;
-            --bg: #FFFFFF;
-            --bg-alt: #F6F6F6;
-            --text: #000000;
-            --badge-bg: #E5E3D0;
-            --badge-text: #394E29;
-            --point-bg: #EAE4D2;
-            --point-fg: #17726E;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            margin: 0;
-            font-family: "Segoe UI", sans-serif;
-            color: var(--text);
-            background-color: var(--bg);
-            line-height: 1.6;
-            overflow-x: hidden;
-            /* Prevent horizontal scrolling */
-            width: 100%;
-        }
-
-        nav {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo span.re {
-            color: var(--logo-l);
-        }
-
-        .logo span.loop {
-            color: var(--logo-d);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--secondary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .hero {
-            display: flex;
-            flex-direction: row;
-            min-height: 90vh;
-            width: 100%;
-        }
-
-        .hero-left {
-            flex: 1;
-            background-color: var(--bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .hero-image {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 1rem;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero-right {
-            flex: 1;
-            background-color: var(--primary);
-            color: white;
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero-content h2 {
-            font-size: 1.5rem;
-            font-weight: normal;
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-            line-height: 1.3;
-        }
-
-        .hero-content p {
-            margin-bottom: 2rem;
-            line-height: 1.5;
-        }
-
-        section {
-            padding: 5rem 2rem;
-            width: 100%;
-        }
-
-        section:nth-child(even) {
-            background-color: var(--bg-alt);
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            color: var(--text);
-            opacity: 0.8;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .feature-card ul {
-            padding-left: 1.5rem;
-        }
-
-        .feature-card li {
-            margin-bottom: 0.5rem;
-        }
-
-        .point {
-            background-color: var(--point-bg);
-            padding: 1.5rem;
-            border-radius: 1rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .point p {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--text);
-            /* Ensure text is visible on mobile */
-        }
-
-        .badge {
-            background-color: var(--badge-bg);
-            color: var(--badge-text);
-            font-weight: bold;
-            border-radius: 50%;
-            width: 2.2rem;
-            height: 2.2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-
-        .problem-container,
-        .vision-container {
-            display: flex;
-            gap: 3rem;
-            margin-bottom: 3rem;
-            align-items: center;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .contact-card {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .contact-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--separator);
-            padding-bottom: 1.5rem;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-question {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .faq-question::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-        }
-
-        .faq-answer {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            padding-left: 1.5rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .gallery-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(57, 78, 41, 0.8);
-            color: white;
-            padding: 0.75rem;
-            font-size: 0.9rem;
-        }
-
-        footer {
-            background-color: var(--primary);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-content p {
-            margin: 0.5rem 0;
-        }
-
-        /* Mobile styles */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .hero-content h2 {
-                font-size: 1.3rem;
-                margin-bottom: 1rem;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--primary);
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                z-index: 99;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .hero {
-                flex-direction: column;
-                min-height: auto;
-            }
-
-            .hero-left,
-            .hero-right {
-                width: 100%;
-                padding: 2rem 1rem;
-            }
-
-            .hero-content {
-                text-align: left;
-            }
-
-            .hero-content h1 {
-                font-size: 2.2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .hero-content h2 {
-                font-size: 1.3rem;
-                margin-bottom: 1.5rem;
-            }
-
-            section {
-                padding: 3rem 1rem;
-            }
-
-            .section-header h2 {
-                font-size: 1.8rem;
-            }
-
-            .section-container {
-                padding: 0 1rem;
-            }
-
-            .features-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .vision-container,
-            .problem-container {
-                flex-direction: column !important;
-                gap: 2rem;
-            }
-
-            .point {
-                margin-bottom: 1rem;
-                padding: 0.8rem;
-            }
-
-            .badge {
-                width: 2rem;
-                height: 2rem;
-                font-size: 1rem;
-            }
-
-            /* Ensure text is visible on mobile */
-            .hero-right .point p {
-                color: var(--text);
-            }
-        }
-
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 1rem;
-        }
-
-        .lightbox.active {
-            display: flex;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        :target {
-            scroll-margin-top: 80px;
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <div class="logo">
-            <span class="re">Re</span><span class="loop">Loop</span>
-        </div>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-            ☰
-        </button>
-        <div class="nav-links">
-            <a href="#home">Om ReLoop</a>
-            <a href="#visjon">Visjon</a>
-            <a href="#problemet">Problemet</a>
-            <a href="#losningen">Løsningen</a>
-            <a href="#fordeler">Fordeler</a>
-            <a href="#hvordan-fungerer-det">Hvordan</a>
-            <a href="#galleri">Galleri</a>
-            <a href="#faq">FAQ</a>
-            <a href="#kontakt">Kontakt</a>
-        </div>
-    </nav>
-
-    <section class="hero" id="home">
-        <div class="hero-left">
-            <img src="https://placehold.co/600x400.png" alt="ReLoop Pantestasjon" class="hero-image" />
-        </div>
-        <div class="hero-right">
-            <div class="hero-content">
-                <h1>RELOOP</h1>
-                <h2>Fremtidens Panteløsning for Dagligvarehandelen</h2>
-                <p>ReLoop er en norsk leverandør av fremtidsrettede og lønnsomme pantestasjoner – et selvstendig,
-                    bærekraftig pantesystem designet for effektivitet, hygiene og økt inntekt for matbutikker.</p>
-                <div class="point">
-                    <span class="badge">01</span>
-                    <p>Økt inntekt for butikkene</p>
-                </div>
-                <div class="point">
-                    <span class="badge">02</span>
-                    <p>Dramatisk kostnadsreduksjon, lavere nedetid, lavere grad av maskinstopp via eget system</p>
-                </div>
-                <div class="point">
-                    <span class="badge">03</span>
-                    <p>Skalerbar forretningsmodell med flere inntektsstrømmer</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="visjon">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Visjon</h2>
-                <p><strong>Fler vil pante mer – via ReLoop.</strong></p>
-                <p>ReLoop representerer neste generasjons panteløsning – designet for å:</p>
-            </div>
-            <div class="section-content">
-                <div class="vision-container">
-                    <div style="flex: 1;">
-                        <br>
-                        <div class="point">
-                            <span class="badge">01</span>
-                            <p>Øke butikkens inntekter</p>
-                        </div>
-                        <div class="point">
-                            <span class="badge">02</span>
-                            <p>Redusere kostnader og maskinstopp</p>
-                        </div>
-                        <div class="point">
-                            <span class="badge">03</span>
-                            <p>Frigjøre verdifull butikkplass</p>
-                        </div>
-                        <div class="point">
-                            <span class="badge">04</span>
-                            <p>Øke kundetilfredshet og bærekraftprofil</p>
-                        </div>
-                        <div class="point">
-                            <span class="badge">05</span>
-                            <p>Skape en ny markedsmulighet for dagligvarehandel</p>
-                        </div>
-                    </div>
-                    <div style="flex: 1; display: flex; justify-content: center;">
-                        <img src="https://placehold.co/600x400.png" alt="ReLoop Visjon"
-                            style="max-width: 100%; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="problemet" class="bg-alt">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Problemet</h2>
-                <p>Dagens panteløsninger skaper flere utfordringer for butikker</p>
-            </div>
-            <div class="section-content">
-                <div class="problem-container">
-                    <div style="flex: 1; display: flex; justify-content: center;">
-                        <img src="https://placehold.co/600x400.png" alt="Tradisjonell Panteløsning"
-                            style="max-width: 100%; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);" />
-                    </div>
-                    <div style="flex: 1;">
-                        <div class="point">
-                            <span class="badge">01</span>
-                            <p>Panting tar verdifull plass og forringer butikkens inntrykk</p>
-                        </div>
-                        <div class="point">
-                            <span class="badge">02</span>
-                            <p>Høye driftskostnader og lav effektivitet</p>
-                        </div>
-                        <div class="point">
-                            <span class="badge">03</span>
-                            <p>Dårlig kundeopplevelse og tidkrevende prosess</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="losningen">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Løsningen</h2>
-                <p>ReLoop tilbyr en innovativ og komplett panteløsning</p>
-            </div>
-            <div class="section-content">
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Innovativ Design"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>Innovativ Design</h3>
-                        <ul>
-                            <li>Kompakt, modulær og skalerbar pantestasjon</li>
-                            <li>Automatisk luftsystem som transporterer panten til container</li>
-                            <li>Universell utforming og sikkerhetsløsninger</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Utvidet Funksjonalitet"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>Utvidet Funksjonalitet</h3>
-                        <ul>
-                            <li>Mulighet for pant av flasker, bokser, batterier, mobiler og mer</li>
-                            <li>Sømløs integrasjon med butikkens eksisterende systemer</li>
-                            <li>Tilgang til elbillading, reklame og døgnåpning</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Teknisk Overlegenhet"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>Teknisk Overlegenhet</h3>
-                        <ul>
-                            <li>Estimert levetid på bygget: 100–200 år</li>
-                            <li>Automatisk renhold og desinfisering</li>
-                            <li>Overvåkning i sanntid</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="fordeler" class="bg-alt">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Fordeler</h2>
-                <p>ReLoop skaper verdi for alle involverte parter</p>
-            </div>
-            <div class="section-content">
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Fordeler for Butikken"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>For Butikken</h3>
-                        <ul>
-                            <li>Frigjør plass og forbedrer flyt</li>
-                            <li>Reduserer driftskostnader og svinn</li>
-                            <li>Bedre kundeopplevelse</li>
-                            <li>Miljøvennlig og TEK17-kompatibel</li>
-                            <li>Kan øke kundegrunnlaget i lokalområdet</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Fordeler for Kunden"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>For Kunden</h3>
-                        <ul>
-                            <li>Rask og enkel panting før handleopplevelse</li>
-                            <li>Utvidet pantemulighet</li>
-                            <li>Tilgjengelig selv når butikken er stengt</li>
-                            <li>Moderne, hygienisk og miljøvennlig løsning</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Forretningsmodell"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>Forretningsmodell</h3>
-                        <ul>
-                            <li>Inntektsstrømmer fra pant, reklameplass og elbil-ladere</li>
-                            <li>Rask inntjening (fra år 1)</li>
-                            <li>Sterk visuell markedsverdi for butikksprofilering</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="hvordan-fungerer-det">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Hvordan Fungerer Det</h2>
-                <p>En enkel og effektiv prosess for både butikker og kunder</p>
-            </div>
-            <div class="section-content">
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="For Butikken"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>For Butikken</h3>
-                        <ul>
-                            <li>Enkel installasjon utenfor butikklokalet</li>
-                            <li>Automatisk tømming og vedlikehold</li>
-                            <li>Sanntidsovervåkning av fyllingsgrad</li>
-                            <li>Integrert med eksisterende butikksystemer</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="For Kunden"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>For Kunden</h3>
-                        <ul>
-                            <li>Pant plastflasker og bokser raskt</li>
-                            <li>Motta pantebevis til å bruke i butikken</li>
-                            <li>Tilgjengelig 24/7 - også når butikken er stengt</li>
-                            <li>Mulighet for å pante flere typer materialer</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <div style="text-align: center; margin-bottom: 1.5rem;">
-                            <img src="https://placehold.co/600x180.png" alt="Vedlikehold"
-                                style="max-width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;" />
-                        </div>
-                        <h3>Vedlikehold</h3>
-                        <ul>
-                            <li>Automatisk rengjøring og desinfisering</li>
-                            <li>Fjernovervåkning av teknisk status</li>
-                            <li>Proaktiv service før problemer oppstår</li>
-                            <li>Minimal nedetid og høy driftssikkerhet</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="galleri">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Galleri</h2>
-                <p>Se ReLoop i aksjon - bilder fra våre installasjoner</p>
-            </div>
-            <div class="section-content">
-                <div class="gallery-grid">
-                    <div class="gallery-item" onclick="openLightbox(this)">
-                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 1"
-                                class="gallery-image" /></a>
-                        <div class="gallery-caption">ReLoop Utendørs Installasjon</div>
-                    </div>
-                    <div class="gallery-item" onclick="openLightbox(this)">
-                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 2"
-                                class="gallery-image" /></a>
-                        <div class="gallery-caption">Pantestasjon i Bruk</div>
-                    </div>
-                    <div class="gallery-item" onclick="openLightbox(this)">
-                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 3"
-                                class="gallery-image" /></a>
-                        <div class="gallery-caption">Innvendig Teknologi</div>
-                    </div>
-                    <div class="gallery-item" onclick="openLightbox(this)">
-                        <a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 4"
-                                class="gallery-image" /></a>
-                        <div class="gallery-caption">Kundeopplevelse</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="bg-alt">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Vanlige Spørsmål</h2>
-                <p>Svar på de mest stilte spørsmålene om ReLoop</p>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">Hvor mye plass krever en ReLoop-stasjon?</div>
-                    <div class="faq-answer">En standard ReLoop-stasjon krever kun 15-20 kvadratmeter utendørs areal,
-                        avhengig av valgt konfigurasjon. Dette er betydelig mindre enn plassen som tradisjonelt brukes
-                        til pantestasjoner inne i butikken.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Hvilke typer emballasje kan pantes i ReLoop-stasjonen?</div>
-                    <div class="faq-answer">ReLoop håndterer alle standard panteflasker og bokser, og kan også
-                        konfigureres for å ta imot batterier, mobiltelefoner og andre resirkulerbare materialer avhengig
-                        av lokale behov og reguleringer.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Hvordan integreres ReLoop med eksisterende butikksystemer?</div>
-                    <div class="faq-answer">ReLoop er designet for sømløs integrasjon med alle standard butikk- og
-                        POS-systemer. Vårt tekniske team håndterer hele integrasjonsprosessen for å sikre minimal
-                        forstyrrelse av butikkens drift.<br><strong>P.S. denne må vi endre; har de egentlig et teknisk
-                            team?</strong></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="kontakt">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Kontakt Oss</h2>
-                <p>Ta kontakt for mer informasjon om ReLoop panteløsning</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>Thomas Hoel Eriksen</h3>
-                    <p>Daglig leder / Prosjektleder</p>
-                    <div class="contact-info">
-                        <div class="contact-item">📞 +47 970 95 285</div>
-                        <div class="contact-item">📧 <a href="mailto:thomas@villamokollen.no">thomas@villamokollen.no</a></div>
-                    </div>
-                </div>
-                <div class="contact-card">
-                    <h3>Stein H. Bakke</h3>
-                    <p>Konseptdesign & Engineering / CTO</p>
-                    <div class="contact-info">
-                        <div class="contact-item">📞 +47 900 77 070</div>
-                        <div class="contact-item">📧 <a href="mailto:stein@sbidesign.no">stein@sbidesign.no</a></div>
-                        <div class="contact-item">🌐 <a href="http://www.sbidesign.no">sbidesign.no</a></div>
-                    </div>
-                </div>
-                <div class="contact-card">
-                    <h3>RELOOP AS</h3>
-                    <div class="contact-info">
-                        <div class="contact-item">Bjerggata 7, 3210 Sandefjord</div>
-                        <div class="contact-item">Org.nr: 930 816 795 MVA</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="logo">
-                <span class="re">Re</span><span class="loop">Loop</span>
-            </div>
-            <p>© 2025 ReLoop AS. Alle rettigheter reservert.</p>
-            <p>Fremtidens Panteløsning for Dagligvarehandelen</p>
-            <br>
-            <p>Design © 2025 NordBerg Nett</p>
-        </div>
-    </footer>
-    <div class="lightbox" onclick="closeLightbox()">
-        <img src="" alt="">
-    </div>
-
-    <script>
-        function openLightbox(element) {
-            const lightbox = document.querySelector('.lightbox');
-            const img = lightbox.querySelector('img');
-            img.src = element.querySelector('img').src;
-            lightbox.classList.add('active');
-        }
-
-        function closeLightbox() {
-            document.querySelector('.lightbox').classList.remove('active');
-        }
-    </script>
-</body>
-
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ReLoop - Fremtidens Panteløsning</title>
+		<style>
+			:root {
+				--logo-l: #637456;
+				--logo-r: #3A4F27;
+				--logo-d: #BAC0B4;
+				--logo-u: #919D87;
+				--primary: #394E29;
+				--secondary: #9BBB59;
+				--separator: #96BEBC;
+				--bg: #FFFFFF;
+				--bg-alt: #F6F6F6;
+				--text: #000000;
+				--badge-bg: #E5E3D0;
+				--badge-text: #394E29;
+				--point-bg: #EAE4D2;
+				--point-fg: #17726E;
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				margin: 0;
+				font-family: "Segoe UI", sans-serif;
+				color: var(--text);
+				background-color: var(--bg);
+				line-height: 1.6;
+				overflow-x: hidden;
+				/* Prevent horizontal scrolling */
+				width: 100%;
+			}
+
+			nav {
+				background-color: var(--primary);
+				color: white;
+				padding: 1rem 2rem;
+				position: sticky;
+				top: 0;
+				z-index: 100;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.logo {
+				font-size: 1.8rem;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+			}
+
+			.logo span.re {
+				color: var(--logo-l);
+			}
+
+			.logo span.loop {
+				color: var(--logo-d);
+			}
+
+			.nav-links {
+				display: flex;
+				gap: 1.5rem;
+			}
+
+			.nav-links a {
+				color: white;
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.3s;
+			}
+
+			.nav-links a:hover {
+				color: var(--secondary);
+			}
+
+			.mobile-menu-btn {
+				display: none;
+				background: none;
+				border: none;
+				color: white;
+				font-size: 1.5rem;
+				cursor: pointer;
+				padding: 0.5rem;
+			}
+
+			.hero {
+				display: flex;
+				flex-direction: row;
+				min-height: 90vh;
+				width: 100%;
+			}
+
+			.hero-left {
+				flex: 1;
+				background-color: var(--bg);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 2rem;
+			}
+
+			.hero-image {
+				max-width: 90%;
+				max-height: 90%;
+				border-radius: 1rem;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+			}
+
+			.hero-right {
+				flex: 1;
+				background-color: var(--primary);
+				color: white;
+				padding: 3rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+
+			.hero-content h1 {
+				font-size: 2.5rem;
+				margin-bottom: 1rem;
+				line-height: 1.2;
+			}
+
+			.hero-content h2 {
+				font-size: 1.5rem;
+				font-weight: normal;
+				margin-bottom: 1.5rem;
+				opacity: 0.9;
+				line-height: 1.3;
+			}
+
+			.hero-content p {
+				margin-bottom: 2rem;
+				line-height: 1.5;
+			}
+
+			section {
+				padding: 5rem 2rem;
+				width: 100%;
+			}
+
+			section:nth-child(even) {
+				background-color: var(--bg-alt);
+			}
+
+			.section-container {
+				max-width: 1400px;
+				margin: 0 auto;
+				padding: 0 2rem;
+			}
+
+			.section-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+
+			.section-header h2 {
+				font-size: 2.2rem;
+				color: var(--primary);
+				margin-bottom: 1rem;
+			}
+
+			.section-header p {
+				font-size: 1.2rem;
+				max-width: 700px;
+				margin: 0 auto;
+				color: var(--text);
+				opacity: 0.8;
+			}
+
+			.features-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 2rem;
+				margin-top: 3rem;
+			}
+
+			.feature-card {
+				background-color: white;
+				border-radius: 0.5rem;
+				padding: 2rem;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+				transition: transform 0.3s, box-shadow 0.3s;
+			}
+
+			.feature-card:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			}
+
+			.feature-card h3 {
+				color: var(--primary);
+				margin-bottom: 1rem;
+				font-size: 1.3rem;
+			}
+
+			.feature-card ul {
+				padding-left: 1.5rem;
+			}
+
+			.feature-card li {
+				margin-bottom: 0.5rem;
+			}
+
+			.point {
+				background-color: var(--point-bg);
+				padding: 1.5rem;
+				border-radius: 1rem;
+				margin-bottom: 1.5rem;
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+			}
+
+			.point p {
+				margin: 0;
+				font-size: 1.1rem;
+				color: var(--text);
+				/* Ensure text is visible on mobile */
+			}
+
+			.badge {
+				background-color: var(--badge-bg);
+				color: var(--badge-text);
+				font-weight: bold;
+				border-radius: 50%;
+				width: 2.2rem;
+				height: 2.2rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-right: 1rem;
+				flex-shrink: 0;
+			}
+
+			.problem-container,
+			.vision-container {
+				display: flex;
+				gap: 3rem;
+				margin-bottom: 3rem;
+				align-items: center;
+			}
+
+			.contact-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 2rem;
+			}
+
+			.contact-card {
+				background-color: white;
+				border-radius: 0.5rem;
+				padding: 2rem;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+			}
+
+			.contact-card h3 {
+				color: var(--primary);
+				margin-bottom: 1rem;
+			}
+
+			.contact-info {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.contact-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+
+			.faq-container {
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			.faq-item {
+				margin-bottom: 1.5rem;
+				border-bottom: 1px solid var(--separator);
+				padding-bottom: 1.5rem;
+			}
+
+			.faq-item:last-child {
+				border-bottom: none;
+			}
+
+			.faq-question {
+				font-weight: bold;
+				font-size: 1.2rem;
+				color: var(--primary);
+				margin-bottom: 0.5rem;
+				position: relative;
+				padding-left: 1.5rem;
+			}
+
+			.faq-question::before {
+				content: '→';
+				position: absolute;
+				left: 0;
+				color: var(--secondary);
+			}
+
+			.faq-answer {
+				font-size: 1.1rem;
+				line-height: 1.6;
+				padding-left: 1.5rem;
+			}
+
+			.gallery-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+				gap: 1.5rem;
+				margin-top: 2rem;
+			}
+
+			.gallery-item {
+				position: relative;
+				overflow: hidden;
+				border-radius: 0.5rem;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+			}
+
+			.gallery-image {
+				width: 100%;
+				height: 250px;
+				object-fit: cover;
+			}
+
+			.gallery-caption {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: rgba(57, 78, 41, 0.8);
+				color: white;
+				padding: 0.75rem;
+				font-size: 0.9rem;
+			}
+
+			footer {
+				background-color: var(--primary);
+				color: white;
+				padding: 2rem;
+				text-align: center;
+			}
+
+			.footer-content {
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.footer-content p {
+				margin: 0.5rem 0;
+			}
+
+			/* Mobile styles */
+			@media (max-width: 768px) {
+				.hero-content h1 {
+					font-size: 2rem;
+				}
+
+				.hero-content h2 {
+					font-size: 1.3rem;
+					margin-bottom: 1rem;
+				}
+
+				.mobile-menu-btn {
+					display: block;
+				}
+
+				.nav-links {
+					display: none;
+					position: absolute;
+					top: 100%;
+					left: 0;
+					right: 0;
+					background-color: var(--primary);
+					flex-direction: column;
+					padding: 1rem;
+					gap: 1rem;
+					box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+					z-index: 99;
+				}
+
+				.nav-links.active {
+					display: flex;
+				}
+
+				.hero {
+					flex-direction: column;
+					min-height: auto;
+				}
+
+				.hero-left,
+				.hero-right {
+					width: 100%;
+					padding: 2rem 1rem;
+				}
+
+				.hero-content {
+					text-align: left;
+				}
+
+				.hero-content h1 {
+					font-size: 2.2rem;
+					margin-bottom: 0.5rem;
+				}
+
+				.hero-content h2 {
+					font-size: 1.3rem;
+					margin-bottom: 1.5rem;
+				}
+
+				section {
+					padding: 3rem 1rem;
+				}
+
+				.section-header h2 {
+					font-size: 1.8rem;
+				}
+
+				.section-container {
+					padding: 0 1rem;
+				}
+
+				.features-grid,
+				.contact-grid {
+					grid-template-columns: 1fr;
+					gap: 1.5rem;
+				}
+
+				.vision-container,
+				.problem-container {
+					flex-direction: column !important;
+					gap: 2rem;
+				}
+
+				.point {
+					margin-bottom: 1rem;
+					padding: 0.8rem;
+				}
+
+				.badge {
+					width: 2rem;
+					height: 2rem;
+					font-size: 1rem;
+				}
+
+				/* Ensure text is visible on mobile */
+				.hero-right .point p {
+					color: var(--text);
+				}
+			}
+
+			.lightbox {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.8);
+				display: none;
+				justify-content: center;
+				align-items: center;
+				z-index: 1000;
+			}
+
+			.lightbox img {
+				max-width: 90%;
+				max-height: 90%;
+				border-radius: 1rem;
+			}
+
+			.lightbox.active {
+				display: flex;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			:target {
+				scroll-margin-top: 80px;
+			}
+
+			.special-funny-image {
+				max-width: 100%;
+				height: 180px;
+				object-fit: cover;
+				border-radius: 0.5rem;
+			}
+
+			.special-funny-container {
+				flex: 1;
+				display: flex;
+				justify-content: center;
+			}
+
+			.less-special-funny-image {
+				max-width: 100%;
+				border-radius: 1rem;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+			}
+
+			.special-funny-card {
+				text-align: center;
+				margin-bottom: 1.5rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav>
+			<div class="logo">
+				<span class="re">Re</span><span class="loop">Loop</span>
+			</div>
+			<button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+				☰
+			</button>
+			<div class="nav-links">
+				<a href="#home">Om ReLoop</a>
+				<a href="#visjon">Visjon</a>
+				<a href="#problemet">Problemet</a>
+				<a href="#losningen">Løsningen</a>
+				<a href="#fordeler">Fordeler</a>
+				<a href="#hvordan-fungerer-det">Hvordan</a>
+				<a href="#galleri">Galleri</a>
+				<a href="#faq">FAQ</a>
+				<a href="#kontakt">Kontakt</a>
+			</div>
+		</nav>
+
+		<section class="hero" id="home">
+			<div class="hero-left">
+				<img src="https://placehold.co/600x400.png" alt="ReLoop Pantestasjon" class="hero-image" />
+			</div>
+			<div class="hero-right">
+				<div class="hero-content">
+					<h1>RELOOP</h1>
+					<h2>Fremtidens Panteløsning for Dagligvarehandelen</h2>
+					<p>ReLoop er en norsk leverandør av fremtidsrettede og lønnsomme pantestasjoner – et selvstendig,
+						bærekraftig pantesystem designet for effektivitet, hygiene og økt inntekt for matbutikker.</p>
+					<div class="point">
+						<span class="badge">01</span>
+						<p>Økt inntekt for butikkene</p>
+					</div>
+					<div class="point">
+						<span class="badge">02</span>
+						<p>Dramatisk kostnadsreduksjon, lavere nedetid, lavere grad av maskinstopp via eget system</p>
+					</div>
+					<div class="point">
+						<span class="badge">03</span>
+						<p>Skalerbar forretningsmodell med flere inntektsstrømmer</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="visjon">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Visjon</h2>
+					<p><strong>Fler vil pante mer – via ReLoop.</strong></p>
+					<p>ReLoop representerer neste generasjons panteløsning – designet for å:</p>
+				</div>
+				<div class="section-content">
+					<div class="vision-container">
+						<div style="flex: 1;">
+							<br>
+							<div class="point">
+								<span class="badge">01</span>
+								<p>Øke butikkens inntekter</p>
+							</div>
+							<div class="point">
+								<span class="badge">02</span>
+								<p>Redusere kostnader og maskinstopp</p>
+							</div>
+							<div class="point">
+								<span class="badge">03</span>
+								<p>Frigjøre verdifull butikkplass</p>
+							</div>
+							<div class="point">
+								<span class="badge">04</span>
+								<p>Øke kundetilfredshet og bærekraftprofil</p>
+							</div>
+							<div class="point">
+								<span class="badge">05</span>
+								<p>Skape en ny markedsmulighet for dagligvarehandel</p>
+							</div>
+						</div>
+						<div class="special-funny-container">
+							<img src="https://placehold.co/600x400.png" alt="ReLoop Visjon" class="less-special-funny-image" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="problemet" class="bg-alt">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Problemet</h2>
+					<p>Dagens panteløsninger skaper flere utfordringer for butikker</p>
+				</div>
+				<div class="section-content">
+					<div class="problem-container">
+						<div class="special-funny-container">
+							<img src="https://placehold.co/600x400.png" alt="Tradisjonell Panteløsning" class="less-special-funny-image" />
+						</div>
+						<div style="flex: 1;">
+							<div class="point">
+								<span class="badge">01</span>
+								<p>Panting tar verdifull plass og forringer butikkens inntrykk</p>
+							</div>
+							<div class="point">
+								<span class="badge">02</span>
+								<p>Høye driftskostnader og lav effektivitet</p>
+							</div>
+							<div class="point">
+								<span class="badge">03</span>
+								<p>Dårlig kundeopplevelse og tidkrevende prosess</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="losningen">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Løsningen</h2>
+					<p>ReLoop tilbyr en innovativ og komplett panteløsning</p>
+				</div>
+				<div class="section-content">
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Innovativ Design" class="special-funny-image" />
+							</div>
+							<h3>Innovativ Design</h3>
+							<ul>
+								<li>Kompakt, modulær og skalerbar pantestasjon</li>
+								<li>Automatisk luftsystem som transporterer panten til container</li>
+								<li>Universell utforming og sikkerhetsløsninger</li>
+							</ul>
+						</div>
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Utvidet Funksjonalitet" class="special-funny-image" />
+							</div>
+							<h3>Utvidet Funksjonalitet</h3>
+							<ul>
+								<li>Mulighet for pant av flasker, bokser, batterier, mobiler og mer</li>
+								<li>Sømløs integrasjon med butikkens eksisterende systemer</li>
+								<li>Tilgang til elbillading, reklame og døgnåpning</li>
+							</ul>
+						</div>
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Teknisk Overlegenhet" class="special-funny-image" />
+							</div>
+							<h3>Teknisk Overlegenhet</h3>
+							<ul>
+								<li>Estimert levetid på bygget: 100–200 år</li>
+								<li>Automatisk renhold og desinfisering</li>
+								<li>Overvåkning i sanntid</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="fordeler" class="bg-alt">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Fordeler</h2>
+					<p>ReLoop skaper verdi for alle involverte parter</p>
+				</div>
+				<div class="section-content">
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Fordeler for Butikken" class="special-funny-image" />
+							</div>
+							<h3>For Butikken</h3>
+							<ul>
+								<li>Frigjør plass og forbedrer flyt</li>
+								<li>Reduserer driftskostnader og svinn</li>
+								<li>Bedre kundeopplevelse</li>
+								<li>Miljøvennlig og TEK17-kompatibel</li>
+								<li>Kan øke kundegrunnlaget i lokalområdet</li>
+							</ul>
+						</div>
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Fordeler for Kunden" class="special-funny-image" />
+							</div>
+							<h3>For Kunden</h3>
+							<ul>
+								<li>Rask og enkel panting før handleopplevelse</li>
+								<li>Utvidet pantemulighet</li>
+								<li>Tilgjengelig selv når butikken er stengt</li>
+								<li>Moderne, hygienisk og miljøvennlig løsning</li>
+							</ul>
+						</div>
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Forretningsmodell" class="special-funny-image" />
+							</div>
+							<h3>Forretningsmodell</h3>
+							<ul>
+								<li>Inntektsstrømmer fra pant, reklameplass og elbil-ladere</li>
+								<li>Rask inntjening (fra år 1)</li>
+								<li>Sterk visuell markedsverdi for butikksprofilering</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="hvordan-fungerer-det">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Hvordan Fungerer Det</h2>
+					<p>En enkel og effektiv prosess for både butikker og kunder</p>
+				</div>
+				<div class="section-content">
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="For Butikken" class="special-funny-image" />
+							</div>
+							<h3>For Butikken</h3>
+							<ul>
+								<li>Enkel installasjon utenfor butikklokalet</li>
+								<li>Automatisk tømming og vedlikehold</li>
+								<li>Sanntidsovervåkning av fyllingsgrad</li>
+								<li>Integrert med eksisterende butikksystemer</li>
+							</ul>
+						</div>
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="For Kunden" class="special-funny-image" />
+							</div>
+							<h3>For Kunden</h3>
+							<ul>
+								<li>Pant plastflasker og bokser raskt</li>
+								<li>Motta pantebevis til å bruke i butikken</li>
+								<li>Tilgjengelig 24/7 - også når butikken er stengt</li>
+								<li>Mulighet for å pante flere typer materialer</li>
+							</ul>
+						</div>
+						<div class="feature-card">
+							<div class="special-funny-card">
+								<img src="https://placehold.co/600x180.png" alt="Vedlikehold" class="special-funny-image" />
+							</div>
+							<h3>Vedlikehold</h3>
+							<ul>
+								<li>Automatisk rengjøring og desinfisering</li>
+								<li>Fjernovervåkning av teknisk status</li>
+								<li>Proaktiv service før problemer oppstår</li>
+								<li>Minimal nedetid og høy driftssikkerhet</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="galleri">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Galleri</h2>
+					<p>Se ReLoop i aksjon - bilder fra våre installasjoner</p>
+				</div>
+				<div class="section-content">
+					<div class="gallery-grid">
+						<div class="gallery-item" onclick="openLightbox(this)">
+							<a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 1" class="gallery-image" /></a>
+							<div class="gallery-caption">ReLoop Utendørs Installasjon</div>
+						</div>
+						<div class="gallery-item" onclick="openLightbox(this)">
+							<a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 2" class="gallery-image" /></a>
+							<div class="gallery-caption">Pantestasjon i Bruk</div>
+						</div>
+						<div class="gallery-item" onclick="openLightbox(this)">
+							<a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 3" class="gallery-image" /></a>
+							<div class="gallery-caption">Innvendig Teknologi</div>
+						</div>
+						<div class="gallery-item" onclick="openLightbox(this)">
+							<a href="#galleri"><img src="https://placehold.co/600x400.png" alt="ReLoop Installasjon 4" class="gallery-image" /></a>
+							<div class="gallery-caption">Kundeopplevelse</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="faq" class="bg-alt">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Vanlige Spørsmål</h2>
+					<p>Svar på de mest stilte spørsmålene om ReLoop</p>
+				</div>
+				<div class="faq-container">
+					<div class="faq-item">
+						<div class="faq-question">Hvor mye plass krever en ReLoop-stasjon?</div>
+						<div class="faq-answer">En standard ReLoop-stasjon krever kun 15-20 kvadratmeter utendørs areal,
+							avhengig av valgt konfigurasjon. Dette er betydelig mindre enn plassen som tradisjonelt brukes
+							til pantestasjoner inne i butikken.</div>
+					</div>
+					<div class="faq-item">
+						<div class="faq-question">Hvilke typer emballasje kan pantes i ReLoop-stasjonen?</div>
+						<div class="faq-answer">ReLoop håndterer alle standard panteflasker og bokser, og kan også
+							konfigureres for å ta imot batterier, mobiltelefoner og andre resirkulerbare materialer avhengig
+							av lokale behov og reguleringer.</div>
+					</div>
+					<div class="faq-item">
+						<div class="faq-question">Hvordan integreres ReLoop med eksisterende butikksystemer?</div>
+						<div class="faq-answer">ReLoop er designet for sømløs integrasjon med alle standard butikk- og
+							POS-systemer. Vårt tekniske team håndterer hele integrasjonsprosessen for å sikre minimal
+							forstyrrelse av butikkens drift.<br><strong>P.S. denne må vi endre; har de egentlig et teknisk
+								team?</strong></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="kontakt">
+			<div class="section-container">
+				<div class="section-header">
+					<h2>Kontakt Oss</h2>
+					<p>Ta kontakt for mer informasjon om ReLoop panteløsning</p>
+				</div>
+				<div class="contact-grid">
+					<div class="contact-card">
+						<h3>Thomas Hoel Eriksen</h3>
+						<p>Daglig leder / Prosjektleder</p>
+						<div class="contact-info">
+							<div class="contact-item">📞 +47 970 95 285</div>
+							<div class="contact-item">📧 <a href="mailto:thomas@villamokollen.no">thomas@villamokollen.no</a></div>
+						</div>
+					</div>
+					<div class="contact-card">
+						<h3>Stein H. Bakke</h3>
+						<p>Konseptdesign & Engineering / CTO</p>
+						<div class="contact-info">
+							<div class="contact-item">📞 +47 900 77 070</div>
+							<div class="contact-item">📧 <a href="mailto:stein@sbidesign.no">stein@sbidesign.no</a></div>
+							<div class="contact-item">🌐 <a href="http://www.sbidesign.no">sbidesign.no</a></div>
+						</div>
+					</div>
+					<div class="contact-card">
+						<h3>RELOOP AS</h3>
+						<div class="contact-info">
+							<div class="contact-item">Bjerggata 7, 3210 Sandefjord</div>
+							<div class="contact-item">Org.nr: 930 816 795 MVA</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<div class="footer-content">
+				<div class="logo">
+					<span class="re">Re</span><span class="loop">Loop</span>
+				</div>
+				<p>© 2025 ReLoop AS. Alle rettigheter reservert.</p>
+				<p>Fremtidens Panteløsning for Dagligvarehandelen</p>
+				<br>
+				<p>Design © 2025 NordBerg Nett</p>
+			</div>
+		</footer>
+		<div class="lightbox" onclick="closeLightbox()">
+			<img src="" alt="">
+		</div>
+
+		<script>
+			function openLightbox(element) {
+				const lightbox = document.querySelector('.lightbox');
+				const img = lightbox.querySelector('img');
+				img.src = element.querySelector('img').src;
+				lightbox.classList.add('active');
+			}
+
+			function closeLightbox() {
+				document.querySelector('.lightbox').classList.remove('active');
+			}
+		</script>
+	</body>
 </html>
 
 <script>
-    function toggleMobileMenu() {
-        const navLinks = document.querySelector('.nav-links');
-        navLinks.classList.toggle('active');
-    }
+	function toggleMobileMenu() {
+		const navLinks = document.querySelector('.nav-links');
+		navLinks.classList.toggle('active');
+	}
 
-    document.addEventListener('click', (e) => {
-        const navLinks = document.querySelector('.nav-links');
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+	document.addEventListener('click', (e) => {
+		const navLinks = document.querySelector('.nav-links');
+		const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 
-        if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            navLinks.classList.remove('active');
-        } else if (navLinks.contains(e.target)) {
-            toggleMobileMenu();
-        }
-    });
+		if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+			navLinks.classList.remove('active');
+		} else if (navLinks.contains(e.target)) {
+			toggleMobileMenu();
+		}
+	});
 </script>
